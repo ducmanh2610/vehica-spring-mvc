@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="https://www.springframework.org/schema/tx"
+	xsi:schemaLocation="https://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		https://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		https://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+
+	<bean id="VehicaDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url"
+			value="jdbc:oracle:thin:@localhost:1555:oracle" />
+		<property name="username" value="system" />
+		<property name="password" value="manh2610HN" />
+	</bean>
+
+	<bean id="vehicaSessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="myDataSource" />
+
+		<property name="annotatedClasses">
+			<list>
+				<value>com.vehica.entities.Customer</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle19cDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="customerDAO" class="com.vehica.dao.customerDAOImpl">
+		<property name="sessionFactory"
+			ref="vehicaSessionFactory" />
+	</bean>
+</beans>
